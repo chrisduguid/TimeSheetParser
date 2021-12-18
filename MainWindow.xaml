@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeSheetParser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="536.593" Width="907.886">
     <Grid>
-        
+        <GroupBox Header="1. File selection" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
+            <Button x:Name="btnSelectFile" Content="Select File" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="btnSelectFile_Click"/>
+        </GroupBox>
+        <TextBox HorizontalAlignment="Left" Height="19" Margin="109,38,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="195"/>
+        <GroupBox Header="2. Rules" HorizontalAlignment="Left" Height="100" Margin="335,10,0,0" VerticalAlignment="Top" Width="555"/>
+        <GroupBox Header="3. Found issues" HorizontalAlignment="Left" Height="217" Margin="10,115,0,0" VerticalAlignment="Top" Width="880">
+            <TextBox x:Name="txtSample" HorizontalAlignment="Left" Height="164" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="844"/>
+        </GroupBox>
+        <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="801,353,0,0" VerticalAlignment="Top" Width="75" Click="btnExit_Click"/>
+        <Button x:Name="btnCreateCSV" Content="Create CSV" HorizontalAlignment="Left" Margin="10,337,0,0" VerticalAlignment="Top" Width="109" Height="36" Click="Button_Click"/>
+
     </Grid>
 </Window>

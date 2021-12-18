@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
+using System.Runtime.InteropServices;
+
 
 namespace TimeSheetParser
 {
@@ -20,9 +24,44 @@ namespace TimeSheetParser
     /// </summary>
     public partial class MainWindow : Window
     {
+        //common variables
+        string selectedfile = "";
+
+        
+        
         public MainWindow()
         {
             InitializeComponent();
+            
+
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnSelectFile_Click(object sender, RoutedEventArgs e)
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+            OpenFileDialog fileSearchDialog = new OpenFileDialog();
+     
+            fileSearchDialog.Filter = "CSV Files (*.csv)|*.csv) | All files (*.*)|*.*";
+            fileSearchDialog.InitialDirectory = path;
+            //fileSearchDialog.ShowDialog();
+
+            if (fileSearchDialog.ShowDialog() == true)
+                txtSample.Text = File.ReadAllText(fileSearchDialog.FileName);
+
+
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
+
+
 }
