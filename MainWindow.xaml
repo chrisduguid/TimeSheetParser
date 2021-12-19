@@ -1,22 +1,27 @@
-﻿<Window x:Class="TimeSheetParser.MainWindow"
+﻿<Window x:Name="MainWindow1" x:Class="TimeSheetParser.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeSheetParser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="536.593" Width="907.886">
-    <Grid>
+        Title="Timesheet Parser" Height="426.593" Width="644.886">
+    <Grid Margin="0,0,2,5">
+        <GroupBox Header="2. Rules" HorizontalAlignment="Left" Height="100" Margin="335,10,0,0" VerticalAlignment="Top" Width="290">
+            <CheckBox x:Name="cbxRule2" Content="One ticket per entry (multiples in ticket field)" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top"/>
+        </GroupBox>
         <GroupBox Header="1. File selection" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
             <Button x:Name="btnSelectFile" Content="Select File" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="btnSelectFile_Click"/>
+
         </GroupBox>
-        <TextBox HorizontalAlignment="Left" Height="19" Margin="109,38,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="195"/>
-        <GroupBox Header="2. Rules" HorizontalAlignment="Left" Height="100" Margin="335,10,0,0" VerticalAlignment="Top" Width="555"/>
-        <GroupBox Header="3. Found issues" HorizontalAlignment="Left" Height="217" Margin="10,115,0,0" VerticalAlignment="Top" Width="880">
-            <TextBox x:Name="txtSample" HorizontalAlignment="Left" Height="164" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="844"/>
+        <TextBox x:Name="txtFileName" HorizontalAlignment="Left" Height="19" Margin="103,38,0,0" TextWrapping="Wrap" Text="[no file selected]" VerticalAlignment="Top" Width="195"/>
+        <GroupBox Header="3. Data example" HorizontalAlignment="Left" Height="217" Margin="10,115,0,0" VerticalAlignment="Top" Width="615">
+            <TextBox x:Name="txtSample" HorizontalAlignment="Left" Height="164" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="585"/>
         </GroupBox>
-        <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="801,353,0,0" VerticalAlignment="Top" Width="75" Click="btnExit_Click"/>
-        <Button x:Name="btnCreateCSV" Content="Create CSV" HorizontalAlignment="Left" Margin="10,337,0,0" VerticalAlignment="Top" Width="109" Height="36" Click="Button_Click"/>
+        <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="550,352,0,0" VerticalAlignment="Top" Width="75" Click="btnExit_Click"/>
+        <Button x:Name="btnRunRules" Content="Parse" HorizontalAlignment="Left" Margin="10,337,0,0" VerticalAlignment="Top" Width="109" Height="36" Click="btnRunRules_Click" />
+        <CheckBox x:Name="cbxRule1_Copy" Content="Required fields (Ticket, Description)" HorizontalAlignment="Left" Margin="351,38,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="cbxRule3" Content="Minimum hours (40)" HorizontalAlignment="Left" Margin="351,74,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

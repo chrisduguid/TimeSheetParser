@@ -25,7 +25,8 @@ namespace TimeSheetParser
     public partial class MainWindow : Window
     {
         //common variables
-        string selectedfile = "";
+        public static string selectedfile = "";
+
 
         
         
@@ -37,31 +38,36 @@ namespace TimeSheetParser
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
 
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void btnSelectFile_Click(object sender, RoutedEventArgs e)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
             OpenFileDialog fileSearchDialog = new OpenFileDialog();
-     
-            fileSearchDialog.Filter = "CSV Files (*.csv)|*.csv) | All files (*.*)|*.*";
+
+            fileSearchDialog.Filter = "All files (*.*)|*.*";
             fileSearchDialog.InitialDirectory = path;
             //fileSearchDialog.ShowDialog();
 
             if (fileSearchDialog.ShowDialog() == true)
                 txtSample.Text = File.ReadAllText(fileSearchDialog.FileName);
-
+            selectedfile = fileSearchDialog.FileName;
+            txtFileName.Text = selectedfile;
 
         }
 
-        private void btnExit_Click(object sender, RoutedEventArgs e)
+        private void btnRunRules_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            OutputWindow output = new OutputWindow();
+            output.Show();
         }
     }
+
 
 
 }
