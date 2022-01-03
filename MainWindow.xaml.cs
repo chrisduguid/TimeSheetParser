@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
+using System.Xml;
 
 
 namespace TimeSheetParser
@@ -27,18 +28,10 @@ namespace TimeSheetParser
         //common variables
         public static string selectedfile = "";
 
-
-        
-        
         public MainWindow()
         {
             InitializeComponent();
-            
-
-
         }
-
-
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
@@ -47,18 +40,22 @@ namespace TimeSheetParser
 
         private void btnSelectFile_Click(object sender, RoutedEventArgs e)
         {
+            //Set default path to downloads. 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+            
+            
             OpenFileDialog fileSearchDialog = new OpenFileDialog();
 
             fileSearchDialog.Filter = "All files (*.*)|*.*";
             fileSearchDialog.InitialDirectory = path;
-            //fileSearchDialog.ShowDialog();
 
             if (fileSearchDialog.ShowDialog() == true)
-                txtSample.Text = File.ReadAllText(fileSearchDialog.FileName);
-            selectedfile = fileSearchDialog.FileName;
-            txtFileName.Text = selectedfile;
-
+            {
+                //prepopulate the sample box to confirm data before processing
+                txtSample.Text = File.ReadAllText(fileSearchDialog.FileName); //This needs error handling as compiler stops if document open. 
+                selectedfile = fileSearchDialog.FileName;
+                txtFileName.Text = selectedfile;
+            }
         }
 
         private void btnRunRules_Click(object sender, RoutedEventArgs e)

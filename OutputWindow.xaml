@@ -7,7 +7,15 @@
         mc:Ignorable="d"
         Title="OutputWindow" Height="450" Width="1426.139">
     <Grid>
-        <ListView HorizontalAlignment="Left" Height="342" Margin="36,37,0,0" VerticalAlignment="Top" Width="1303" Name="ListViewEntries">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="130*"/>
+            <RowDefinition Height="289*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="1335*"/>
+        </Grid.ColumnDefinitions>
+        <ListView HorizontalAlignment="Left" Height="342" Margin="36,37,0,0" VerticalAlignment="Top" Width="1351" Name="ListViewEntries" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Job Name" Width="150" DisplayMemberBinding="{Binding Path=JobName}"/>
@@ -19,7 +27,7 @@
                     <GridViewColumn Header="Ticket #" Width="100" DisplayMemberBinding="{Binding Path=TicketNumber}"/>
                     <GridViewColumn Header="Description" Width="500" DisplayMemberBinding="{Binding Path=Description}"/>
                     <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Path=Time}"/>
-                    
+
 
                 </GridView>
             </ListView.View>
