@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeSheetParser"
         mc:Ignorable="d"
-        Title="OutputWindow" Height="782.976" Width="1549.195">
+        Title="OutputWindow" Height="782.976" Width="1713.195">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="130*"/>
@@ -15,7 +15,7 @@
             <ColumnDefinition Width="83*"/>
             <ColumnDefinition Width="1335*"/>
         </Grid.ColumnDefinitions>
-        <ListView HorizontalAlignment="Left" Height="342" Margin="36,37,0,0" VerticalAlignment="Top" Width="1476" Name="ListViewEntries" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <ListView HorizontalAlignment="Left" Height="342" Margin="39,42,0,0" VerticalAlignment="Top" Width="1639" Name="ListViewEntries" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Job Name" Width="150" DisplayMemberBinding="{Binding Path=JobName}"/>
@@ -27,10 +27,8 @@
                     <GridViewColumn Header="Ticket #" Width="100" DisplayMemberBinding="{Binding Path=TicketNumber}"/>
                     <GridViewColumn Header="Description" Width="500" DisplayMemberBinding="{Binding Path=Description}"/>
                     <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Path=Time}"/>
-                    <GridViewColumn Header="Rule" Width="100" DisplayMemberBinding="{Binding Path=IssueId}"/>
-                    
-
-
+                    <GridViewColumn Header="Rule" Width="100" DisplayMemberBinding="{Binding Path=IssueID}"/>
+                    <GridViewColumn Header="Comment" Width="200" DisplayMemberBinding="{Binding Path=IssueComment}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -38,6 +36,7 @@
         <Label Content="Unfinished Timesheets" HorizontalAlignment="Left" Margin="39,176,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="182" FontWeight="Bold" FontSize="16"/>
         <Label Content="Staff With Timesheet Issues" HorizontalAlignment="Left" Margin="306,176,0,0" Grid.Row="1" VerticalAlignment="Top" Width="289" FontWeight="Bold" FontSize="16" Grid.Column="1"/>
         <TextBlock x:Name="txtblkStaffWithTimesheetIssues" Grid.Column="1" HorizontalAlignment="Left" Margin="317,212,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="297" Width="932"/>
+        <Label Content="Entries with issues" HorizontalAlignment="Left" Margin="39,6,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="219" FontWeight="Bold" FontSize="16"/>
 
     </Grid>
 </Window>
