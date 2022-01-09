@@ -16,10 +16,13 @@ using System.IO;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Xml;
+using System.Windows.Forms;
 
 
 namespace TimeSheetParser
 {
+    
+    
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -27,6 +30,9 @@ namespace TimeSheetParser
     {
         //common variables
         public static string selectedfile = "";
+        //public static string outputFileName = "error.csv";
+        //public static string outputFolderName = "Environment.GetFolderPath(Environment.SpecialFolder.Desktop)";
+
 
         public MainWindow()
         {
@@ -41,10 +47,9 @@ namespace TimeSheetParser
         private void btnSelectFile_Click(object sender, RoutedEventArgs e)
         {
             //Set default path to downloads. 
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-            
-            
-            OpenFileDialog fileSearchDialog = new OpenFileDialog();
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Desktop";
+
+            Microsoft.Win32.OpenFileDialog fileSearchDialog = new Microsoft.Win32.OpenFileDialog();
 
             fileSearchDialog.Filter = "All files (*.*)|*.*";
             fileSearchDialog.InitialDirectory = path;
@@ -56,12 +61,35 @@ namespace TimeSheetParser
                 selectedfile = fileSearchDialog.FileName;
                 txtFileName.Text = selectedfile;
             }
+
+
         }
 
         private void btnRunRules_Click(object sender, RoutedEventArgs e)
         {
             OutputWindow output = new OutputWindow();
             output.Show();
+        }
+
+        private void btnSeletOutputFolder_Click(object sender, RoutedEventArgs e)
+        {
+        //    Set default path to downloads.
+        //string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Documents";
+
+
+
+        //    using (var dialog = new FolderBrowserDialog())
+        //    {
+        //        DialogResult result = dialog.ShowDialog();
+
+        //        if (result == System.Windows.Forms.DialogResult.OK)
+        //        {
+        //            txtBoxOutputFolder.Text = dialog.SelectedPath.ToString();
+        //            outputFileName = dialog.SelectedPath.ToString();
+        //        }
+
+
+        //    }
         }
     }
 
