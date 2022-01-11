@@ -8,21 +8,22 @@
         Title="Timesheet Parser" Height="426.593" Width="782.219">
     <Grid Margin="0,0,2,5">
         <GroupBox Header="2. Output Locations&#xD;&#xA;" HorizontalAlignment="Left" Height="100" Margin="335,10,0,0" VerticalAlignment="Top" Width="427">
-            <TextBox x:Name="txtBoxOutputFolder" HorizontalAlignment="Left" Height="15" Margin="154,-7,-2,53" TextWrapping="Wrap" Text="Environment.GetFolderPath(Environment.SpecialFolder.Desktop)" VerticalAlignment="Bottom" Width="207" FontSize="8"/>
+            <TextBox x:Name="txtBoxOutputFolder" HorizontalAlignment="Left" Height="15" Margin="154,-7,-2,53" TextWrapping="Wrap" Text="Environment.GetFolderPath(Environment.SpecialFolder.Desktop)" VerticalAlignment="Bottom" Width="207" FontSize="10"/>
         </GroupBox>
         <GroupBox Header="1. File selection" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="320">
             <Button x:Name="btnSelectFile" Content="Select File" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="btnSelectFile_Click" FontSize="10"/>
         </GroupBox>
-        <TextBox x:Name="txtFileName" HorizontalAlignment="Left" Height="14" Margin="103,38,0,0" TextWrapping="Wrap" Text="[no file selected]" VerticalAlignment="Top" Width="195" FontSize="8"/>
+        <TextBox x:Name="txtFileName" HorizontalAlignment="Left" Height="14" Margin="103,38,0,0" TextWrapping="Wrap" Text="[no file selected]" VerticalAlignment="Top" Width="195" FontSize="10"/>
         <GroupBox Header="3. Data example" HorizontalAlignment="Left" Height="217" Margin="10,115,0,0" VerticalAlignment="Top" Width="752">
             <TextBox x:Name="txtSample" HorizontalAlignment="Left" Height="164" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="585"/>
         </GroupBox>
-        <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="550,352,0,0" VerticalAlignment="Top" Width="75" Click="btnExit_Click"/>
-        <Button x:Name="btnRunRules" Content="Parse" HorizontalAlignment="Left" Margin="10,337,0,0" VerticalAlignment="Top" Width="109" Height="36" Click="btnRunRules_Click" />
+        <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="687,353,0,0" VerticalAlignment="Top" Width="75" Click="btnExit_Click"/>
+        <Button x:Name="btnRunRules" Content="Parse" HorizontalAlignment="Left" Margin="30,337,0,0" VerticalAlignment="Top" Width="109" Height="36" Click="btnRunRules_Click" />
         <Label Content="Output File Folder" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="346,32,0,0" RenderTransformOrigin="0.746,0.513" Width="105" FontSize="8" Height="23"/>
         <Button x:Name="btnSeletOutputFolder" Content="Select Folder" HorizontalAlignment="Left" Margin="424,35,0,0" VerticalAlignment="Top" Width="69" FontSize="10" RenderTransformOrigin="0.575,-1.294" Click="btnSeletOutputFolder_Click"/>
         <Label Content="Output File Name&#x9;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="346,57,0,0" RenderTransformOrigin="0.746,0.513" Width="105" FontSize="8" Height="23"/>
-        <TextBox x:Name="txtBoxOutputFilename" HorizontalAlignment="Left" Height="14" Margin="424,60,0,0" TextWrapping="Wrap" Text="errors.csv" VerticalAlignment="Top" Width="69" RenderTransformOrigin="3.531,2" FontSize="8"/>
+        <TextBox x:Name="txtBoxOutputFilename" HorizontalAlignment="Left" Height="15" Margin="424,60,0,0" TextWrapping="Wrap" Text="errors.csv" VerticalAlignment="Top" Width="278" RenderTransformOrigin="3.531,2" FontSize="10"/>
+        <Label x:Name="lblValidationError" Content="" HorizontalAlignment="Left" Margin="617,147,0,0" VerticalAlignment="Top" Width="145" FontWeight="SemiBold" FontSize="10" Foreground="Red" Height="157"/>
 
     </Grid>
 </Window>

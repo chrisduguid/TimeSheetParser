@@ -37,8 +37,9 @@ namespace TimeSheetParser
             DateTime.Now.ToString("ss") +
             " - " + "errors.csv";
         //string outputPathCSV = Path.Combine(folderLocation, outputCSVFileName);
-        string outputPathErrors = Path.Combine(@"C:\temp\", outputErrorsFilename);
-
+        static string outputErrorFolder = @"C:\temp\";
+        string outputPathErrors = Path.Combine(outputErrorFolder, outputErrorsFilename);
+        
 
         
 
@@ -46,7 +47,10 @@ namespace TimeSheetParser
         {
             InitializeComponent();
 
-
+            if(!Directory.Exists(outputErrorFolder))
+            {
+                Directory.CreateDirectory(outputErrorFolder);
+            }
             ReadInCSV(MainWindow.selectedfile); //Read in CSV and ensure is valid timesheet. 
             CreateStaffList();
             RunRules();
@@ -62,15 +66,60 @@ namespace TimeSheetParser
             //{
             //    File.Delete(outputPathCSV);
             //}
+            //First task is to ensure that we capture the header row and assign the correct columns to the correct entry proprties. The offllowing inputs headerfs are required in the report. 
+            
+            Dictionary<string, int> headerReference = new Dictionary<string, int>();
 
+            string[] headers = new string[9];
+            headers[0]="[Job] Name";
+            headers[1]="[Job] Job No.";
+            headers[2]="[Time] Date";
+            headers[3]="[Task] Name";
+            headers[4]="[Time] Reference / Ticket #";
+            headers[5]="[Task] Label";
+            headers[6]="[Staff] Name";
+            headers[7]="[Time] Note";
+            headers[8]="[Time] Time";
+
+            //create an array of rows of input file. 
             string[] lines = File.ReadAllLines(fileName);
+
+            //Define regex pattern to split the lines to parts ie: header elements. 
+            Regex CSVParse = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+
+            string[] headerElements = CSVParse.Split(lines[0]);
+
+            //iterate through the header elements, compare them against the expected elements and assign to correct 'Entry' properties. 
+
+            for (int i = 0; i < headers.Length; i++) //aligns with Entry location
+            {
+                for(int w = 0; w < headerElements.Length; w++) //cycle through each inbound element from the inputfile
+                {
+                    if (headers[i] == headerElements[w].Trim('"'))
+                    {
+                        headerReference.Add(headers[i],w);
+                    }
+
+                }
+            }
+            //create internal data
             foreach(string line in lines.Skip(1))
             {
-                Regex CSVParse = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
                 string[] inputLine = CSVParse.Split(line);
 
                 CreateOutputFile(inputLine, outputCSVFileName);
-                Entry ent = new Entry(inputLine[0], inputLine[1], inputLine[2], inputLine[3], inputLine[4], inputLine[5], inputLine[6], inputLine[7], Convert.ToDouble(inputLine[8]));
+                
+                Entry ent = new Entry();
+                ent.JobName = inputLine[headerReference["[Job] Name"]];
+                ent.JobName = inputLine[headerReference["[Job] Job No."]];
+                ent.EntryDate = inputLine[headerReference["[Time] Date"]];
+                ent.TaskName = inputLine[headerReference["[Task] Name"]];
+                ent.TicketNumber = inputLine[headerReference["[Time] Reference / Ticket #"]];
+                ent.Label = inputLine[headerReference["[Task] Label"]];
+                ent.StaffName = inputLine[headerReference["[Staff] Name"]];
+                ent.Description = inputLine[headerReference["[Time] Note"]];
+                ent.Time = Convert.ToDouble(inputLine[headerReference["[Time] Time"]].Trim('"'));
+
                 readCSV.Add(ent);
             }
         }
@@ -157,8 +206,8 @@ namespace TimeSheetParser
         private void Rule4()
         {
             string casTicketPattern = @"^([Cc][Aa][Ss]-)\d{5}(-).{6}$"; //CAS-ddddd-******
-            string invTicketPattern = @"^([Ii][Nn][Cc]-)\d{5}$"; //INC-ddddd
-            string devOpsTicketPattern = @"^\d{6}$"; //dddddd
+            string incTicketPattern = @"^([Ii][Nn][Cc]-)\d{5}$"; //INC-ddddd
+            string devOpsTicketPattern = @"^\d{5,6}$"; //ddddd-d
             foreach (Entry row in readCSV)
             {
                 
@@ -180,7 +229,7 @@ namespace TimeSheetParser
                         {
                             badFormat = false;
                         }
-                        if (Regex.IsMatch(word, invTicketPattern))
+                        if (Regex.IsMatch(str, incTicketPattern))
                         {
                             badFormat = false;
                         }
@@ -190,7 +239,6 @@ namespace TimeSheetParser
                         row.IssueID = 4;
                         row.IssueComment = row.IssueComment + "Bad ticket(s) format. ";
                     }
-                    badFormat = true;
                 }
             }
         }
@@ -296,7 +344,7 @@ namespace TimeSheetParser
             int res = 0;
             foreach (string word in ticketNumberEntry)
             {
-                if (word != "")
+                if (word.Trim('"') != "")
                 {
                     res++;
                 }
@@ -304,12 +352,6 @@ namespace TimeSheetParser
             return res;
         }
 
-
-        private int DetermineNumberofStaff()
-        {
-            int numStaff = readCSV.Select(x => x.StaffName).Distinct().Count();
-            return numStaff;
-        }
 
         private void CreateStaffList()
         {
@@ -341,6 +383,7 @@ namespace TimeSheetParser
             public string IssueComment { get; set; }
 
 
+
             public Entry(string jobName, string jobNumber, string entryDate, string taskName, string ticketNumber, string label, string staffName, string description, double time, int issueID, string issueComment)
             {
                 JobName = jobName;
@@ -366,6 +409,21 @@ namespace TimeSheetParser
                 StaffName = staffName;
                 Description = description;
                 Time = time;
+                IssueID = 0;
+                IssueComment = "";
+            }
+
+            public Entry()
+            {
+                JobName = "";
+                JobNumber = "";
+                EntryDate = "";
+                TaskName = "";
+                TicketNumber = "";
+                Label = "";
+                StaffName = "";
+                Description = "";
+                Time = 0.0;
                 IssueID = 0;
                 IssueComment = "";
             }

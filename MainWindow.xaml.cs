@@ -17,7 +17,7 @@ using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Xml;
 using System.Windows.Forms;
-
+using System.Text.RegularExpressions;
 
 namespace TimeSheetParser
 {
@@ -60,9 +60,59 @@ namespace TimeSheetParser
                 txtSample.Text = File.ReadAllText(fileSearchDialog.FileName); //This needs error handling as compiler stops if document open. 
                 selectedfile = fileSearchDialog.FileName;
                 txtFileName.Text = selectedfile;
+                ValidateInput(selectedfile);
+            }
+            
+
+            
+        }  
+
+        private void ValidateInput(string filename)
+        {
+            string[] headers = new string[9];
+            headers[0] = "[Job] Name";
+            headers[1] = "[Job] Job No.";
+            headers[2] = "[Time] Date";
+            headers[3] = "[Task] Name";
+            headers[4] = "[Time] Reference / Ticket #";
+            headers[5] = "[Task] Label";
+            headers[6] = "[Staff] Name";
+            headers[7] = "[Time] Note";
+            headers[8] = "[Time] Time";
+
+            string[] lines = File.ReadAllLines(filename);
+            Regex CSVParse = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+            string[] headerElements = CSVParse.Split(lines[0]);
+
+            List<string> validationIssues = headers.ToList<string>();
+            //iterate through the header elements, compare them against the expected elements 
+            for (int i = 0; i < headerElements.Length; i++) //aligns with Entry properties
+            {
+                for (int w = 0; w < headers.Length; w++) //cycle through each inbound element from the inputfile
+                {
+                    if (headers[w] == headerElements[i].Trim('"'))
+                    {
+                        validationIssues.Remove(headers[w]); //remove the headers that exist., 
+                    }
+                }
             }
 
-
+            //test for issues
+            if (validationIssues.Count > 0) //if errors exists
+            {
+                //display on screen and stop. 
+                btnRunRules.IsEnabled = false;
+                lblValidationError.Content = "Missing column(s): " + Environment.NewLine;
+                foreach (string item in validationIssues)
+                {
+                    lblValidationError.Content = lblValidationError.Content + item + Environment.NewLine;
+                }
+            }
+            else
+            {
+                btnRunRules.IsEnabled = true;
+                lblValidationError.Content = "";
+            }
         }
 
         private void btnRunRules_Click(object sender, RoutedEventArgs e)
