@@ -110,14 +110,14 @@ namespace TimeSheetParser
                 CreateOutputFile(inputLine, outputCSVFileName);
                 
                 Entry ent = new Entry();
-                ent.JobName = inputLine[headerReference["[Job] Name"]];
-                ent.JobName = inputLine[headerReference["[Job] Job No."]];
-                ent.EntryDate = inputLine[headerReference["[Time] Date"]];
-                ent.TaskName = inputLine[headerReference["[Task] Name"]];
-                ent.TicketNumber = inputLine[headerReference["[Time] Reference / Ticket #"]];
-                ent.Label = inputLine[headerReference["[Task] Label"]];
-                ent.StaffName = inputLine[headerReference["[Staff] Name"]];
-                ent.Description = inputLine[headerReference["[Time] Note"]];
+                ent.JobName = inputLine[headerReference["[Job] Name"]].Trim('"');
+                ent.JobNumber = inputLine[headerReference["[Job] Job No."]].Trim('"');
+                ent.EntryDate = inputLine[headerReference["[Time] Date"]].Trim('"');
+                ent.TaskName = inputLine[headerReference["[Task] Name"]].Trim('"');
+                ent.TicketNumber = inputLine[headerReference["[Time] Reference / Ticket #"]].Trim('"');
+                ent.Label = inputLine[headerReference["[Task] Label"]].Trim('"');
+                ent.StaffName = inputLine[headerReference["[Staff] Name"]].Trim('"');
+                ent.Description = inputLine[headerReference["[Time] Note"]].Trim('"');
                 ent.Time = Convert.ToDouble(inputLine[headerReference["[Time] Time"]].Trim('"'));
 
                 readCSV.Add(ent);
@@ -142,6 +142,7 @@ namespace TimeSheetParser
             Rule2(); //One ticket number per entry. 
             Rule3(); //description present
             Rule4(); //ticket number format in ticketnumber entry. 
+            Rule5(); //on call entries only have 1 hour and there is a weekday description.
             Rule10(); //check for 40+ hours entered in timesheet. 
         }
 
@@ -197,8 +198,11 @@ namespace TimeSheetParser
             {
                if(row.Description == "")
                 {
-                    row.IssueID = 3;
-                    row.IssueComment = row.IssueComment + "Description needed. ";
+                    if (row.TaskName != "Leave - Public Holiday" && row.TaskName != "Leave - Annual")//leave doesnt need description
+                    {
+                        row.IssueID = 3;
+                        row.IssueComment = row.IssueComment + "Description needed. ";
+                    }
                 }
             }
         }
@@ -242,6 +246,29 @@ namespace TimeSheetParser
                 }
             }
         }
+
+        //rule 5 function - Support on call task only has a single hour entry. Support On-Call
+        private void Rule5()
+        {
+            foreach (Entry row in readCSV)
+            {
+                if (row.TaskName == "Support On-Call")
+                {
+                    if (row.Time > 1)
+                    {
+                        row.IssueID = 5;
+                        row.IssueComment = row.IssueComment + "Only add a '1' for daily on call. ";
+                    }
+                    if (row.Description == "")
+                    {
+                        row.IssueID = 5;
+                        row.IssueComment = row.IssueComment + "Please add the weekday into the comment. ";
+                    }
+                }
+            }
+        }
+
+        
         //rule 10 function - minimum 40 hours for the week (indicates not filled out timesheet)
         //need to pull in the whole lines array and check by staffname and count the hours against activities. 
         //count staff by checking each line and adding twithin an array. 

@@ -123,23 +123,7 @@ namespace TimeSheetParser
 
         private void btnSeletOutputFolder_Click(object sender, RoutedEventArgs e)
         {
-        //    Set default path to downloads.
-        //string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Documents";
-
-
-
-        //    using (var dialog = new FolderBrowserDialog())
-        //    {
-        //        DialogResult result = dialog.ShowDialog();
-
-        //        if (result == System.Windows.Forms.DialogResult.OK)
-        //        {
-        //            txtBoxOutputFolder.Text = dialog.SelectedPath.ToString();
-        //            outputFileName = dialog.SelectedPath.ToString();
-        //        }
-
-
-        //    }
+       
         }
     }
 

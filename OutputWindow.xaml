@@ -27,7 +27,7 @@
                     <GridViewColumn Header="Ticket #" Width="100" DisplayMemberBinding="{Binding Path=TicketNumber}"/>
                     <GridViewColumn Header="Description" Width="500" DisplayMemberBinding="{Binding Path=Description}"/>
                     <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Path=Time}"/>
-                    <GridViewColumn Header="Rule" Width="100" DisplayMemberBinding="{Binding Path=IssueID}"/>
+                    <!--<GridViewColumn Header="Rule" Width="100" DisplayMemberBinding="{Binding Path=IssueID}"/>-->
                     <GridViewColumn Header="Comment" Width="200" DisplayMemberBinding="{Binding Path=IssueComment}"/>
                 </GridView>
             </ListView.View>
