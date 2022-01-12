@@ -33,10 +33,11 @@
             </ListView.View>
         </ListView>
         <TextBlock x:Name="txtblkUnfinishedTimesheets" HorizontalAlignment="Left" Margin="39,212,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="297" Width="242"/>
-        <Label Content="Unfinished Timesheets" HorizontalAlignment="Left" Margin="39,176,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="182" FontWeight="Bold" FontSize="16"/>
+        <Label Content="Unfinished Timesheets" HorizontalAlignment="Left" Margin="33,176,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="182" FontWeight="Bold" FontSize="16"/>
         <Label Content="Staff With Timesheet Issues" HorizontalAlignment="Left" Margin="306,176,0,0" Grid.Row="1" VerticalAlignment="Top" Width="289" FontWeight="Bold" FontSize="16" Grid.Column="1"/>
         <TextBlock x:Name="txtblkStaffWithTimesheetIssues" Grid.Column="1" HorizontalAlignment="Left" Margin="317,212,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="297" Width="932"/>
         <Label Content="Entries with issues" HorizontalAlignment="Left" Margin="39,6,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="219" FontWeight="Bold" FontSize="16"/>
+        <Button Content="Close" Grid.Column="1" HorizontalAlignment="Left" Margin="1458,442,0,0" Grid.Row="1" VerticalAlignment="Top" Width="102" Height="32" Click="Button_Click"/>
 
     </Grid>
 </Window>
