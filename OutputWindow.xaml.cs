@@ -28,7 +28,7 @@ namespace TimeSheetParser
         List<string> staffList = new List<string>();
         double minimumHoursPerWeek = 40;
 
-        string folderLocation = "Environment.GetFolderPath(Environment.SpecialFolder.Desktop)";
+        //string folderLocation = "Environment.GetFolderPath(Environment.SpecialFolder.Desktop)";
         static string outputCSVFileName = "csv.csv";
         static string outputErrorsFilename = 
             DateTime.Now.ToString("yyyy") + 
@@ -155,7 +155,9 @@ namespace TimeSheetParser
         {
             foreach (Entry row in readCSV)
             {
-                if (row.TaskName == "Support")
+                if (row.TaskName == "Support" 
+                    && row.Label != "Professional Service Packs - Wave Release Activity" 
+                    && row.Label != "Professional Services Pack")
                 {
                     if (row.TicketNumber == "") // ticket number is empty
                     {
@@ -177,7 +179,6 @@ namespace TimeSheetParser
         //rule 2 function - Only one ticket present in the ticket reference
         private void Rule2()
         {
-            int numberOfTicketNumbers = 0;
             foreach (Entry row in readCSV)
             {
                 //Test for multiple ticket Numbers
@@ -209,9 +210,13 @@ namespace TimeSheetParser
         //rule 4 function - make sure ticket numbers are valid
         private void Rule4()
         {
-            string casTicketPattern = @"^([Cc][Aa][Ss]-)\d{5}(-).{6}$"; //CAS-ddddd-******
-            string incTicketPattern = @"^([Ii][Nn][Cc]-)\d{5}$"; //INC-ddddd
-            string devOpsTicketPattern = @"^\d{5,6}$"; //ddddd-d
+
+            List<string> patterns = new List<string>();
+            patterns.Add(@"^([Cc][Aa][Ss]-)\d{5}(-).{6}$");//CAS-ddddd-******
+            patterns.Add(@"^([Ii][Nn][Cc]-)\d{5}$");//INC-ddddd
+            patterns.Add(@"^([SsCc][RrHh]-)\d{5}$");//SR-ddddd CH-ddddd
+            patterns.Add(@"^\d{5,6}$");//ddddd-d
+            patterns.Add(@"^([IiSs][MmDd])\d{6}$");//IMXXXXXX SDXXXXXX
             foreach (Entry row in readCSV)
             {
                 
@@ -222,20 +227,15 @@ namespace TimeSheetParser
                     bool badFormat = true;  
                     foreach(string word in lineToWords)
                     {
-                        //test patterns against each word
-                        string str = word.Trim('"');
-                        
-                        if (Regex.IsMatch(str, devOpsTicketPattern))
+                        foreach(string pattern in patterns)
                         {
-                            badFormat = false;
-                        }
-                        if (Regex.IsMatch(str, casTicketPattern))
-                        {
-                            badFormat = false;
-                        }
-                        if (Regex.IsMatch(str, incTicketPattern))
-                        {
-                            badFormat = false;
+                            string str = word.Trim('"');
+
+                            if (Regex.IsMatch(str, pattern))
+                            {
+                                badFormat = false;
+                                break;
+                            }
                         }
                     }
                     if (badFormat)
@@ -274,9 +274,6 @@ namespace TimeSheetParser
         //count staff by checking each line and adding twithin an array. 
         private void Rule10()
         {
-            bool result = false;
-            string staffName;
-            string rawTime = "";
             int counter = 1;
 
             //create a dictionary to hold user and hours
